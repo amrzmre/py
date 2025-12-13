@@ -1,3 +1,21 @@
+# DATABASE (SQLITE)
+
+"""
+sqlite:
+    · SQLite3 comes pre-installed with Python
+    · Serverless
+    · Single file database (self-contained)
+
+Basic Commands:
+    . CREATE: create a table for database
+    . INSERT: create data
+    . SELECT: read data
+    · UPDATE: update data
+    . DELETE: delete data
+"""
+#---------------------------------------------
+# Initialize database (CREATE):
+
 import sqlite3
 
 class DatabaseManager:
@@ -31,6 +49,9 @@ class DatabaseManager:
                     )
                 ''')
 
+#------------------------------------------------------
+# Create data (INSERT):
+
     def create_user(self, name, email, age):
         """Create a new user"""
         try:
@@ -43,7 +64,10 @@ class DatabaseManager:
         except sqlite3.IntegrityError as e:
             print(f"Error: {e}")
             return None
-    
+
+#------------------------------------------------------
+ # Create data (INSERT):
+
     def create_post(self, user_id, title, content):
         """Create a new post"""
         with sqlite3.connect(self.db_name) as conn:
@@ -52,7 +76,9 @@ class DatabaseManager:
                 INSERT INTO posts (user_id, title, content) VALUES (?, ?, ?)
             ''', (user_id, title, content))
             return cursor.lastrowid
-        
+
+#------------------------------------------------------        
+# Read data (SELECT):
 
     def get_all_users(self):
         """Get all users"""
@@ -60,7 +86,10 @@ class DatabaseManager:
             cursor = conn.cursor()
             cursor.execute('SELECT * FROM users')
             return cursor.fetchall()
-    
+
+#------------------------------------------------------
+# Read data (SELECT):
+
     def get_user_posts(self, user_id):
         """Get posts by user"""
         with sqlite3.connect(self.db_name) as conn:
@@ -72,7 +101,10 @@ class DatabaseManager:
                 ORDER BY p.created_at DESC
             ''', (user_id,))
             return cursor.fetchall()
-        
+
+#------------------------------------------------------
+ # Delete data (DELETE):
+
     def delete_user(self, user_id):
         """Delete a user and their posts"""
         with sqlite3.connect(self.db_name) as conn:
@@ -80,6 +112,9 @@ class DatabaseManager:
             cursor.execute('DELETE FROM posts WHERE user_id = ?', (user_id,))
             cursor.execute('DELETE FROM users WHERE id = ?', (user_id,))
             return cursor.rowcount > 0
+
+#------------------------------------------------------
+# Update data (UPDATE):
 
     def update_user(self, user_id, name=None, email=None, age=None):
         """Update user information"""
@@ -113,7 +148,8 @@ class DatabaseManager:
             print(f"Error: {e}")
             return False
 
-
+#------------------------------------------------------
+# Run on Terminal Function:
 
 def display_menu():
     """Display the main menu"""

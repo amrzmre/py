@@ -1,48 +1,152 @@
+# FUNCTIONS
 
+# Functions:
+# · Reusable block of code that do specific task
+
+#------------------------------------------------
+
+# Functions with parameters
 def greet_person(name):
     print(f"Hello, {name}!")
 
 greet_person("Alice")
-greet_person("Bob")
 
+# Functions with return values
 def add_numbers(a, b):
     return a + b
 
-result_1 = add_numbers(5, 7)
-result_2 = add_numbers(-3, 12)
-print(f"Result 1: {result_1}")
-print(f"Result 2: {result_2}")
+result = add_numbers(5, 3)
+print(result) # 8
+
+# Default parameters
+def greet_with_title(name, title="Mr."):
+    return f"Hello, {title} {name}!"
+
+print(greet_with_title("Smith"))             # "Hello, Mr. Smith!"
+print(greet_with_title("Johnson", "Dr."))    # "Hello, Dr. Johnson!"
 
 
-def greet_with_title(name, title="Mr./Ms."):
-    return(f"Hello, {title} {name}!")
+#------------------------------------------------
 
-print(greet_with_title("Charlie"))
-print(greet_with_title("Diana", "Dr."))
+" args : "
+# · access by index: args[0]
+# · unpacking: func(*list)
+
+# *args - variable number of arguments
+def sum_all(*args):
+    return sum(args)
+
+print(sum_all(1, 2, 3, 4,5))  # 15
+
+#------------------------------------------------
+
+" kwargs : "
+# · access by key: kwargs['key']
+# · unpacking: func( ** dict)
+
+# ** kwargs - keyword arguments
+def print_info( ** kwargs):
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
+print_info(name="Alice", age=25, city="New York")
+
+#------------------------------------------------
+
+" args & kwargs : "
+
+# Combining *args and ** kwargs
+def flexible_function(*args, ** kwargs):
+    print("Positional arguments:", args)
+    print("Keyword arguments:", kwargs)
+
+flexible_function(1, 2, 3, name="Alice", age=25)
+
+#--------------------------------------------------
+
+" lambda : "
+# · anonymous function
+# · small function
+
+# Lambda functions (anonymous functions)
+square = lambda x: x ** 2
+print(square(5)) # 25
+
+add = lambda x, y: x + y
+print(add(3, 4)) # 7
+
+#--------------------------------------------------
+
+" EXCERCISE "
+
+"""
+1. Write a function that checks if a number is prime.
+
+"""
+
+# Function to check if a number is prime
+def is_prime(number):
+    # Numbers less than 2 are not prime
+    if number < 2:
+        return False
+    
+    # Check if number is divisible by any number from 2 to number-1
+    for i in range(2, number):
+        if number % i == 0:  # If divisible, not prime
+            return False
+    
+    # If no divisors found, it's prime
+    return True
 
 
-# Example: WITH return vs WITHOUT return
-print("\n--- WITH return ---")
-def multiply_with_return(a, b):
-    result = a * b
-    return result  # sends value back
+# Test the function with different numbers
+print("=== Testing Prime Numbers ===")
 
-answer = multiply_with_return(4, 5)
-print(f"Answer: {answer}")  # prints: Answer: 20
+test_numbers = [1, 2, 3, 4, 5, 10, 13, 17, 20, 23, 29, 30]
+
+for num in test_numbers:
+    if is_prime(num):
+        print(f"{num} is PRIME")
+    else:
+        print(f"{num} is NOT prime")
+
+print()
+
+# # Ask user for input (optional)
+# user_number = int(input("Enter a number to check if it's prime: "))
+
+# if is_prime(user_number):
+#     print(f"{user_number} is a PRIME number!")
+# else:
+#     print(f"{user_number} is NOT a prime number.")
 
 
-print("\n--- WITHOUT return ---")
-def multiply_without_return(a, b):
-    result = a * b
-    print(f"Result is: {result}")  # prints inside function
+#---------------------------------------------------------
 
-answer2 = multiply_without_return(4, 5)
-print(f"Answer stored: {answer2}")  # prints: Answer stored: None
+"""
+2. Build a temperature converter function. (Celsius to Fahrenheit)
+"""
 
-# functions: args & kwargs
+# Function to convert Celsius to Fahrenheit
+def celsius_to_fahrenheit(celsius):
+    fahrenheit = (celsius * 9/5) + 32
+    return fahrenheit
 
-def flexible_function(*args, **kwargs):
-    print("Positional arguments (args):", args)
-    print("Keyword arguments (kwargs):", kwargs)
 
-flexible_function(1, 2, 3, name="Alice", age=30)
+# Test the function with different temperatures
+print("=== Celsius to Fahrenheit Converter ===")
+print()
+
+# Test various temperatures
+test_temps = [0, 10, 20, 25, 30, 37, 100]
+
+for temp in test_temps:
+    result = celsius_to_fahrenheit(temp)
+    print(f"{temp}°C = {result}°F")
+
+print()
+
+# # User input
+# celsius = float(input("Enter temperature in Celsius: "))
+# fahrenheit = celsius_to_fahrenheit(celsius)
+# print(f"{celsius}°C is equal to {fahrenheit}°F")
