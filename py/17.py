@@ -295,7 +295,7 @@ async def delete_user(user_id: int):
         )
 #----------------------------------------------
 
-# update(UPDATE)
+# put(UPDATE)
 
 # PUT - Update User (Full Update)
 @app.put("/users/{user_id}", response_model=UserResponse)
