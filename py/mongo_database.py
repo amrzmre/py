@@ -118,86 +118,80 @@ class DatabaseManager:
             print(f"Error fetching posts: {e}")
             return []
 
-# Update Functions:
+# Update Functions in DatabaseManager class:
 
-    def update_user(self, user_id, **kwargs):
-        """Update user fields
-        
-        Args:
-            user_id: User's ObjectId or string ID
-            **kwargs: Fields to update (name, email, age)
-        
-        Returns:
-            bool: True if update successful, False otherwise
-        """
-        try:
-            # Convert string user_id to ObjectId if valid
-            if ObjectId.is_valid(user_id):
-                user_object_id = ObjectId(user_id)
-            else:
-                user_object_id = user_id
-            
-            # Filter out None values and build update dict
-            update_fields = {k: v for k, v in kwargs.items() if v is not None}
-            
-            if not update_fields:
-                print("No fields to update")
-                return False
-            
-            # Add updated_at timestamp
-            update_fields["updated_at"] = datetime.now()
-            
-            result = self.users_collection.update_one(
-                {"_id": user_object_id},
-                {"$set": update_fields}
-            )
-            
-            return result.modified_count > 0
-        except Exception as e:
-            print(f"Error updating user: {e}")
-            return False
+def update_user(self, user_id, name, email, age):
+    """Update user fields
     
-    def update_post(self, post_id, title=None, content=None):
-        """Update post fields
+    Args:
+        user_id: User's ObjectId or string ID
+        name: User's name
+        email: User's email
+        age: User's age
+    
+    Returns:
+        bool: True if update successful, False otherwise
+    """
+    try:
+        # Convert string user_id to ObjectId if valid
+        if ObjectId.is_valid(user_id):
+            user_object_id = ObjectId(user_id)
+        else:
+            user_object_id = user_id
         
-        Args:
-            post_id: Post's ObjectId or string ID
-            title: New title (optional)
-            content: New content (optional)
+        # Add updated_at timestamp
+        update_fields = {
+            "name": name,
+            "email": email,
+            "age": age,
+            "updated_at": datetime.now()
+        }
         
-        Returns:
-            bool: True if update successful, False otherwise
-        """
-        try:
-            # Convert string post_id to ObjectId if valid
-            if ObjectId.is_valid(post_id):
-                post_object_id = ObjectId(post_id)
-            else:
-                post_object_id = post_id
-            
-            # Build update dict
-            update_fields = {}
-            if title is not None:
-                update_fields["title"] = title
-            if content is not None:
-                update_fields["content"] = content
-            
-            if not update_fields:
-                print("No fields to update")
-                return False
-            
-            # Add updated_at timestamp
-            update_fields["updated_at"] = datetime.now()
-            
-            result = self.posts_collection.update_one(
-                {"_id": post_object_id},
-                {"$set": update_fields}
-            )
-            
-            return result.modified_count > 0
-        except Exception as e:
-            print(f"Error updating post: {e}")
-            return False
+        result = self.users_collection.update_one(
+            {"_id": user_object_id},
+            {"$set": update_fields}
+        )
+        
+        return result.modified_count > 0
+    except Exception as e:
+        print(f"Error updating user: {e}")
+        return False
+
+def update_post(self, post_id, title, content):
+    """Update post fields
+    
+    Args:
+        post_id: Post's ObjectId or string ID
+        title: New title
+        content: New content
+    
+    Returns:
+        bool: True if update successful, False otherwise
+    """
+    try:
+        # Convert string post_id to ObjectId if valid
+        if ObjectId.is_valid(post_id):
+            post_object_id = ObjectId(post_id)
+        else:
+            post_object_id = post_id
+        
+        # Build update dict with updated_at timestamp
+        update_fields = {
+            "title": title,
+            "content": content,
+            "updated_at": datetime.now()
+        }
+        
+        result = self.posts_collection.update_one(
+            {"_id": post_object_id},
+            {"$set": update_fields}
+        )
+        
+        return result.modified_count > 0
+    except Exception as e:
+        print(f"Error updating post: {e}")
+        return False
+
 
  # Delete Function
 
